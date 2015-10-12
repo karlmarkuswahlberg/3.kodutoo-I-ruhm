@@ -1,0 +1,22 @@
+Massiiv - ei vıimalda nimelisi v‰‰rtusi anda
+
+Objekt - vıimaldab.
+
+a = {}
+a = {id: 0, car_plate: "Kmw 1"}
+
+b = {id: 1, car_plate: "kmkm"}
+
+massiiv = []
+massiiv.push(a)
+1
+massiiv.push(b)
+2
+massiiv
+[object, objekt]
+
+massiiv[0]
+object (id: 0, car_plate: "kmw 1");
+
+massiiv[0].car_plate
+"Kmw 1"
