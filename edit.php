@@ -5,7 +5,7 @@
 
 	
 	if(isset($_GET["update"])){
-		updateCarData($_GET["car_id"], $_GET["gps_point"], $_GET["location"]);
+		updateHabitat($_GET["habitat_id"], $_GET["gps_point"], $_GET["location"], $_GET["habitat_name"], $_GET["habitat_code"]);
 		
 	}
 	//trükin aadressirealt muutuja
@@ -17,9 +17,9 @@
 		
 		//küsin andmeid.
 		//muutuja "car" saab andmed ühe auto kohta ja siis hoiab neid kõiki.
-		//getSingleCarData tuleb kõik edit_functions lehelt. Seal on selle sisu
-		$car = getSingleCarData($_GET["edit_id"]);
-		var_dump ($car);
+		//getHabitatData tuleb kõik edit_functions lehelt. Seal on selle sisu
+		$habitat = getHabitatData($_GET["edit_id"]);
+		
 		
 	}else{
 		
@@ -32,12 +32,14 @@
 
 ?>
 
-<!--Salvestamiseks kasutan table.php rida updateCarData($_GET["car_id"], $_GET["gps_point"], $_GET["location"]); updateCar() -->
+<!--Salvestamiseks kasutan table.php rida updateHabitat($_GET["habitat_id"], $_GET["gps_point"], $_GET["location"]); updateCar() -->
 
 <form action="edit.php" method="get">
-	<input name="car_id" type="hidden" value="<?=$_GET["edit_id"];?>">
-	<input name="gps_point" type="text" value="<?=$car->gps_point;?>"><br> <!--siit läheb reale updateCarData. Siis läheb edit_functions.php. $stmt->bind_param ja siis $stmt = $mysqli->prepare-->
-	<input name="location" type="text" value="<?=$car->location;?>"><br>
+	<input name="habitat_id" type="hidden" value="<?=$_GET["edit_id"];?>">
+	<input name="gps_point" type="text" value="<?=$habitat->gps_point;?>"> GPS-PUNKT<br> <!--siit läheb reale updateHabitat. Siis läheb edit_functions.php. $stmt->bind_param ja siis $stmt = $mysqli->prepare-->
+	<input name="location" type="text" value="<?=$habitat->location;?>"> Asukoht<br>
+	<input name="habitat_name" type="text" value="<?=$habitat->habitat_name;?>"> Elupaiga nimi<br>
+	<input name="habitat_code" type="text" value="<?=$habitat->habitat_code;?>"> Elupaiga kodeering<br>
 	<input name="update" type="submit"><br>
 	
 

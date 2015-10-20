@@ -5,25 +5,28 @@
     $database = "if15_skmw";
 
 		//leian ühe auto andmed, siis kogun need ja saadan need tagasi ¤car
-	function getSingleCarData($id){
+	function getHabitatData($id){
 		
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		
-		$stmt = $mysqli->prepare("SELECT gps_point, location FROM habitat_data WHERE id=? AND deleted IS NULL");
+		$stmt = $mysqli->prepare("SELECT gps_point, location, habitat_name, habitat_code FROM habitat_data WHERE id=? AND deleted IS NULL");
 		$stmt->bind_param("i", $id);
-		$stmt->bind_result($gps_point, $location);
+		$stmt->bind_result($gps_point, $location, $habitat_name, $habitat_code);
 		$stmt->execute();
 		
 		//auto objekt
-		$car = new StdClass();
+		$habitat = new StdClass();
 		
 		
 		//kas sain rea andmeid
 		
 		if($stmt->fetch()){
 			
-			$car->gps_point = $gps_point;
-			$car->location = $location;
+			$habitat->gps_point = $gps_point;
+			$habitat->location = $location;
+			$habitat->habitat_name = $habitat_name;
+			$habitat->habitat_code = $habitat_code;
+			
 			
 		}else{
 			
@@ -36,15 +39,15 @@
 		$stmt->close();
 		$mysqli->close();
 		
-		return $car;
+		return $habitat;
 	}
 	
 	
-	function updateCarData($car_id, $gps_point, $location){
+	function updateHabitat($habitat_id, $gps_point, $location, $habitat_name, $habitat_code){
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		
-		$stmt = $mysqli->prepare("UPDATE habitat_data SET gps_point=?, location=? WHERE id=?");
-		$stmt->bind_param("ssi", $gps_point, $location, $car_id);
+		$stmt = $mysqli->prepare("UPDATE habitat_data SET gps_point=?, location=?, habitat_name=?, habitat_code=? WHERE id=?");
+		$stmt->bind_param("issii", $gps_point, $location, $habitat_name, $habitat_code, $habitat_id);
 		$stmt->execute();
 		header("Location: table.php");
 		$stmt->close();

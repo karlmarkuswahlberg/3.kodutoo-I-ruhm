@@ -15,28 +15,28 @@
 	if(isset($_GET["delete"])){
 		
 		//saadan kustutatava auto id
-		deleteCarData($_GET["delete"]);
+		deleteHabitat($_GET["delete"]);
 	}
 	if(isset($_GET["update"])){
-		updateCarData($_GET["car_id"], $_GET["gps_point"], $_GET["location"]);
+		updateHabitat($_GET["habitat_id"], $_GET["gps_point"], $_GET["location"],  $_GET["habitat_name"],  $_GET["habitat_code"]);
 	}
 	
 	
 	//saadan return andmed siia. kõik autod objektide kujul massiivis. 
-	$car_array = getAllData();
+	$habitat_array = getAllData();
 	$keyword = "";
 	
 	if(isset($_GET["keyword"])){
 		
 		$keyword = $_GET["keyword"];
 		//otsime
-		$car_array = getAllData($keyword);
+		$habitat_array = getAllData($keyword);
 		
 	}else{
 		
 		//näitame kõiki tulemusi
 		//kõik aut od objektide kujul massiivis
-		$car_array = getAllData();
+		$habitat_array = getAllData();
 		
 	}
 	
@@ -57,8 +57,8 @@
 	<th>User ID</th>
 	<th>GPS point</th>
 	<th>Location</th>
-	<th>Habitat code</th>
 	<th>Habitat name</th>
+	<th>Habitat code</th>
 	<th>Delete</th>
 	<th>Edit</th>
 	<th>Edit separately</th>
@@ -67,42 +67,43 @@
 <?php
 	
 	//autod ükshaaval läbi käia.
-	for($i = 0; $i < count($car_array); $i++){
+	for($i = 0; $i < count($habitat_array); $i++){
 		
 		//trükib nr lauad välja.
 		//lihtsalt muutujad saab echoga ka jutumärkide sees. Aga kui juba klassid ja objektid, siis on vaja lõpetada ära ja punktide vahele.
 		
 		//kasutaja saab rida muuta, kui aadressireale tekib edit.
-		if(isset($_GET["edit"]) && $_GET["edit"] ==  $car_array[$i]->id){
+		if(isset($_GET["edit"]) && $_GET["edit"] && $_GET["edit"] && $_GET["edit"] ==  $habitat_array[$i]->id){
 			
 			echo "<tr>";
 			echo "<form action='table.php' method='get'>";
 			//input mida välja ei näidata. hidden.
-			echo "<input type='hidden' name='car_id' value='".$car_array[$i]->id."'>";
-			echo "<td>".$car_array[$i]->id."</td>";
-			echo "<td>".$car_array[$i]->user_id."</td>";
-			echo "<td><input name='gps_point' value='".$car_array[$i]->gps_point."'></td>";
-			echo "<td><input name='location' value='".$car_array[$i]->location."'></td>";
-			echo "<td><input name='habitat_name' value='".$car_array[$i]->habitat_name."'></td>";
-			echo "<td><input name='habitat_code' value='".$car_array[$i]->habitat_code."'></td>";
+			echo "<input type='hidden' name='habitat_id' value='".$habitat_array[$i]->id."'>";
+			
+			echo "<td>".$habitat_array[$i]->id."</td>";
+			echo "<td>".$habitat_array[$i]->user_id."</td>";
+			echo "<td><input name='gps_point' value='".$habitat_array[$i]->gps_point."'></td>";
+			echo "<td><input name='location' value='".$habitat_array[$i]->location."'></td>";
+			echo "<td><input name='habitat_name' value='".$habitat_array[$i]->habitat_name."'></td>";
+			echo "<td><input name='habitat_code' value='".$habitat_array[$i]->habitat_code."'></td>";
 			echo "<td><input name='update' type='submit'></td>";
 			echo "<td><a href='table.php'>cancel</a></td>";
 			echo"</tr>";
 			
 		}else{
-			echo "<tr><td>".$car_array[$i]->id."</td>";
-			echo "<td>".$car_array[$i]->user_id."</td>";
-			echo "<td>".$car_array[$i]->gps_point."</td>";
-			echo "<td>".$car_array[$i]->location."</td>";
-			echo "<td>".$car_array[$i]->habitat_name."</td>";
-			echo "<td>".$car_array[$i]->habitat_code."</td>";
-			echo "<td><a href='?delete=".$car_array[$i]->id."'>X</a></td>";
-			echo "<td><a href='?edit=".$car_array[$i]->id."'>edit</a></td>";
+			echo "<tr><td>".$habitat_array[$i]->id."</td>";
+			echo "<td>".$habitat_array[$i]->user_id."</td>";
+			echo "<td>".$habitat_array[$i]->gps_point."</td>";
+			echo "<td>".$habitat_array[$i]->location."</td>";
+			echo "<td>".$habitat_array[$i]->habitat_name."</td>";
+			echo "<td>".$habitat_array[$i]->habitat_code."</td>";
+			echo "<td><a href='?delete=".$habitat_array[$i]->id."'>X</a></td>";
+			echo "<td><a href='?edit=".$habitat_array[$i]->id."'>edit</a></td>";
 			//lisan tulba, mis viib edit.php lehele.
-			echo "<td><a href='edit.php?edit_id=".$car_array[$i]->id."'>edit</a></td>";
+			echo "<td><a href='edit.php?edit_id=".$habitat_array[$i]->id."'>edit</a></td>";
 			echo "</tr>";
-			//echo $car_array[$i]->id."<br>";
-			//echo $car_array[$i]->gps_point."<br>";
+			//echo $habitat_array[$i]->id."<br>";
+			//echo $habitat_array[$i]->gps_point."<br>";
 		}
 		
 	}

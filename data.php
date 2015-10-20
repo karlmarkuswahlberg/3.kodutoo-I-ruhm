@@ -23,40 +23,42 @@
 	
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
 		
-		if(isset($_POST["add_car_plate"])){
+		if(isset($_POST["add_habitat"])){
 		
-		if ( empty($_POST["car_plate"]) ) {
-				$car_plate_error = "See väli on kohustuslik";
+		if ( empty($_POST["gps_point"]) ) {
+				$gps_point_error = "See väli on kohustuslik";
 			}else{
-				$car_plate = cleanInput($_POST["car_plate"]);
+				$gps_point = cleanInput($_POST["gps_point"]);
 			}	
 		if ( empty($_POST["location"]) ) {
 				$location_error = "See väli on kohustuslik";
 			}else{
 				$location = cleanInput($_POST["location"]);
 			}	
-		if ( empty($_POST["location"]) ) {
-				$location_error = "See väli on kohustuslik";
+		if ( empty($_POST["habitat_name"]) ) {
+				$habitat_name_error = "See väli on kohustuslik";
 			}else{
-				$location = cleanInput($_POST["location"]);
+				$habitat_name = cleanInput($_POST["habitat_name"]);
 			}	
-		if ( empty($_POST["location"]) ) {
-				$location_error = "See väli on kohustuslik";
+		if ( empty($_POST["habitat_code"]) ) {
+				$habitat_code_error = "See väli on kohustuslik";
 			}else{
-				$location = cleanInput($_POST["location"]);
+				$habitat_code = cleanInput($_POST["habitat_code"]);
 			}	
 			
 	}
 	
 	//erroreid ei olnud, käivitan funktsiooni mis sisestab andmebaasi need 2 väärtust. functions.php
-	if($car_plate_error == "" && $location_error ==""){
+	if($gps_point_error == "" && $location_error =="" && $habitat_name_error =="" && $habitat_code_error =="" ){
 		//m on message, mille saadame functions.php failist.
-		$m = createCarPlate($car_plate, $location);
+		$m = createHabitat($gps_point, $location, $habitat_name, $habitat_code);
 		
 		if($m != ""){
 			//teeme vormi tühjaks
-			$car_plate = "";
+			$gps_point = "";
 			$location = "";
+			$habitat_name = "";			
+			$habitat_code = "";
 			}
 		}
 	}
@@ -78,7 +80,7 @@
   
 ?>
 
-Tere, <?=$_SESSION['logged_in_user_email'];?> <a href="?logout=1">Logi välja!</a><br>
+Tere Tulemast, <?=$_SESSION['logged_in_user_email'];?>, siin saad lisada elupaikade andmeid tabelisse! <br><a href="?logout=1">Logi välja!</a><br>
 <a href="table.php">Vaata tabelit</a>
 
 <h2>Lisa uus elupaik</h2>
@@ -92,6 +94,6 @@ Tere, <?=$_SESSION['logged_in_user_email'];?> <a href="?logout=1">Logi välja!</
     <input id="habitat_name" name="habitat_name" type="text" value="<?=$habitat_name;?>"> <?=$habitat_name_error;?><br><br>
 	<label for="habitat_code"> Elupaiga kodeering </label>
     <input id="habitat_code" name="habitat_code" type="text" value="<?=$habitat_code;?>"> <?=$habitat_code_error;?><br><br>
-	<input type="submit" name="add_car_plate" value="Lisa">
+	<input type="submit" name="add_habitat" value="Lisa">
 	<p style="color:green;"><?=$m;?></p>
   </form>

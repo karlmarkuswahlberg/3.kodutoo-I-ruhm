@@ -6,7 +6,7 @@
    
 	//selleks, et kuvada tabel lehel vĆ¤lja. 
 	
-	//vaikeväärtus on keywordil, et vältida errorit, mis tekiks real $car_array = getAllData(); table.php's
+	//vaikeväärtus on keywordil, et vältida errorit, mis tekiks real $habitat_array = getAllData(); table.php's
 	function getAllData($keyword=""){
 		
 		if($keyword == ""){
@@ -44,20 +44,21 @@
            //suvaline muutuja, kus hoiame auto andmeid selle hetkeni kui lisame massiivi
 		   
 		   //StdClass on tühi objekt, kus hoiame väärtusi. MIDA
-		   $car = new StdClass();
+		   $habitat = new StdClass();
 		   
-		   $car->id = $id_from_db;
-		   $car->user_id = $user_id_from_db;
-		   $car->gps_point = $gps_point_from_db;
-		   $car->location = $location_from_db;
-		   $car->habitat_name = $habitat_name_from_db;
-		   $car->habitat_code = $habitat_code_from_db;
-		  
+		   $habitat->id = $id_from_db;
+		   $habitat->user_id = $user_id_from_db;
+		   $habitat->gps_point = $gps_point_from_db;
+		   $habitat->location = $location_from_db;
+		   $habitat->habitat_name = $habitat_name_from_db;
+		   $habitat->habitat_code = $habitat_code_from_db;
+		   
+		   
 		   
 		   
 		   //lisan massiivi. esiteks, KUHU lisame, teiseks, MIDA.
 		   
-		   array_push($array, $car);
+		   array_push($array, $habitat);
 		   //var_dump võib echo asemel kasutada kui error on. annab andmed välja
 		   //echo "<pre>";
 		   //var_dump($array);
@@ -71,12 +72,12 @@
 		$mysqli->close();
 		
 	}
-	function deleteCarData($car_id){
+	function deleteHabitat($habitat_id){
 		 $mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		 
 		 //uuendan välja deleted, lisan praeguse date'i
 		 $stmt = $mysqli->prepare("UPDATE habitat_data SET deleted=NOW() WHERE id=?");
-		 $stmt->bind_param("i", $car_id);
+		 $stmt->bind_param("i", $habitat_id);
 		 $stmt->execute();
 		 
 		 //tühjendame aadressiriba, siis ei jää sinna ?deleted=10 rida.
@@ -87,11 +88,11 @@
 	}
 	
 	//uuendab muudatused ja salvestab ära.
-	function updateCarData($car_id, $gps_point, $location){
+	function updateHabitat($habitat_id, $gps_point, $location, $habitat_name, $habitat_code){
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		
-		$stmt = $mysqli->prepare("UPDATE habitat_data SET gps_point=?, location=? WHERE id=?");
-		$stmt->bind_param("ssi", $gps_point, $location, $car_id);
+		$stmt = $mysqli->prepare("UPDATE habitat_data SET gps_point=?, location=?, habitat_name=?, habitat_code=? WHERE id=?");
+		$stmt->bind_param("issii", $gps_point, $location, $habitat_name, $habitat_code, $habitat_id);
 		$stmt->execute();
 		header("Location: table.php");
 		$stmt->close();
@@ -145,12 +146,12 @@
 	}
 	
 	
-	function createCarPlate($car_plate, $location){
+	function createHabitat($habitat_plate, $location, $habitat_name, $habitat_code){
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("INSERT INTO habitat_data (user_id, gps_point, location) VALUES (?,?,?)");
+		$stmt = $mysqli->prepare("INSERT INTO habitat_data (user_id, gps_point, location, habitat_name, habitat_code) VALUES (?,?,?,?,?)");
 		echo $mysqli->error;
 		//i on int user id jaoks.
-		$stmt->bind_param("iss", $_SESSION['logged_in_user_id'], $car_plate, $location);
+		$stmt->bind_param("iissi", $_SESSION['logged_in_user_id'], $habitat_plate, $location, $habitat_name, $habitat_code);
 		
 		//muutuja selleks, mida ta Ć¼tleb.
 		$message = "";
