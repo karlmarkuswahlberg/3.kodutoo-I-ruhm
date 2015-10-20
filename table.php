@@ -56,8 +56,10 @@
 	<th>ID</th>
 	<th>User ID</th>
 	<th>GPS point</th>
+	<th>Location</th>
 	<th>Habitat code</th>
 	<th>Habitat name</th>
+	<th>Delete</th>
 	<th>Edit</th>
 	<th>Edit separately</th>
 	
@@ -77,11 +79,12 @@
 			echo "<form action='table.php' method='get'>";
 			//input mida välja ei näidata. hidden.
 			echo "<input type='hidden' name='car_id' value='".$car_array[$i]->id."'>";
-			
 			echo "<td>".$car_array[$i]->id."</td>";
 			echo "<td>".$car_array[$i]->user_id."</td>";
 			echo "<td><input name='gps_point' value='".$car_array[$i]->gps_point."'></td>";
 			echo "<td><input name='location' value='".$car_array[$i]->location."'></td>";
+			echo "<td><input name='habitat_name' value='".$car_array[$i]->habitat_name."'></td>";
+			echo "<td><input name='habitat_code' value='".$car_array[$i]->habitat_code."'></td>";
 			echo "<td><input name='update' type='submit'></td>";
 			echo "<td><a href='table.php'>cancel</a></td>";
 			echo"</tr>";
@@ -91,6 +94,8 @@
 			echo "<td>".$car_array[$i]->user_id."</td>";
 			echo "<td>".$car_array[$i]->gps_point."</td>";
 			echo "<td>".$car_array[$i]->location."</td>";
+			echo "<td>".$car_array[$i]->habitat_name."</td>";
+			echo "<td>".$car_array[$i]->habitat_code."</td>";
 			echo "<td><a href='?delete=".$car_array[$i]->id."'>X</a></td>";
 			echo "<td><a href='?edit=".$car_array[$i]->id."'>edit</a></td>";
 			//lisan tulba, mis viib edit.php lehele.

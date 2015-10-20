@@ -24,18 +24,19 @@
 		
 		//deleted is NULL, ei ole kustutatud
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("SELECT id, user_id, gps_point, location FROM habitat_data WHERE deleted IS NULL AND (gps_point LIKE ? OR location LIKE ?)");
-		$stmt->bind_param("ss", $search, $search);
+		$stmt = $mysqli->prepare("SELECT id, user_id, gps_point, location, habitat_name, habitat_code FROM habitat_data WHERE deleted IS NULL AND (gps_point LIKE ? OR location LIKE ? OR habitat_name LIKE ? OR habitat_code LIKE ?)");
+		$stmt->bind_param("ssss", $search, $search, $search, $search);
 	//kuna küsimärke pole, siis bind_param jääb vahele.
 	
 	//seob selle, mis tabelist saadud, nende muutujatega bind result.
-		$stmt->bind_result($id_from_db, $user_id_from_db, $gps_point_from_db, $location_from_db);
+		$stmt->bind_result($id_from_db, $user_id_from_db, $gps_point_from_db, $location_from_db, $habitat_name_from_db, $habitat_code_from_db);
 		$stmt->execute();
 		
 		//tekitame massiivi, kus hoiame auto nr KUHU.
 		$array = array();
 		$array = array();
-		
+		$array = array();
+		$array = array();
 		
 		//iga rea kohta mid on ab's
         while($stmt->fetch()){
@@ -49,7 +50,9 @@
 		   $car->user_id = $user_id_from_db;
 		   $car->gps_point = $gps_point_from_db;
 		   $car->location = $location_from_db;
-		   
+		   $car->habitat_name = $habitat_name_from_db;
+		   $car->habitat_code = $habitat_code_from_db;
+		  
 		   
 		   
 		   //lisan massiivi. esiteks, KUHU lisame, teiseks, MIDA.

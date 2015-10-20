@@ -13,11 +13,9 @@
 	}
 	//lühend <?php > on <?= //>?
 	$m = "";
-	$car_plate = $location = "";
-	$car_plate_error = $location_error = "";
 	
-	$gps_point = $habitat_name = $habitat_code = "";
-	$gps_point_error = $habitat_code_error = $habitat_name_error = "";
+	$gps_point = $location = $habitat_name = $habitat_code = "";
+	$gps_point_error = $location_error = $habitat_code_error = $habitat_name_error = "";
 	
 	//lisada kasutaja id, numbrilaud ja värv.
 	
@@ -37,6 +35,17 @@
 			}else{
 				$location = cleanInput($_POST["location"]);
 			}	
+		if ( empty($_POST["location"]) ) {
+				$location_error = "See väli on kohustuslik";
+			}else{
+				$location = cleanInput($_POST["location"]);
+			}	
+		if ( empty($_POST["location"]) ) {
+				$location_error = "See väli on kohustuslik";
+			}else{
+				$location = cleanInput($_POST["location"]);
+			}	
+			
 	}
 	
 	//erroreid ei olnud, käivitan funktsiooni mis sisestab andmebaasi need 2 väärtust. functions.php
@@ -72,13 +81,17 @@
 Tere, <?=$_SESSION['logged_in_user_email'];?> <a href="?logout=1">Logi välja!</a><br>
 <a href="table.php">Vaata tabelit</a>
 
-<h2>Lisa uus</h2>
+<h2>Lisa uus elupaik</h2>
 
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
-    <label for="car_plate"> GPS punkt </label>
-  	<input id="car_plate" name="car_plate" type="text" value="<?=$car_plate;?>"> <?=$car_plate_error;?><br><br>
+    <label for="gps_point"> GPS punkt </label>
+  	<input id="gps_point" name="gps_point" type="text" value="<?=$gps_point;?>"> <?=$gps_point_error;?><br><br>
 	<label for="location"> Asukoht </label>
     <input id="location" name="location" type="text" value="<?=$location;?>"> <?=$location_error;?><br><br>
+	<label for="habitat_name"> Elupaiga nimetus </label>
+    <input id="habitat_name" name="habitat_name" type="text" value="<?=$habitat_name;?>"> <?=$habitat_name_error;?><br><br>
+	<label for="habitat_code"> Elupaiga kodeering </label>
+    <input id="habitat_code" name="habitat_code" type="text" value="<?=$habitat_code;?>"> <?=$habitat_code_error;?><br><br>
 	<input type="submit" name="add_car_plate" value="Lisa">
-	<p style="location:green;"><?=$m;?></p>
+	<p style="color:green;"><?=$m;?></p>
   </form>
