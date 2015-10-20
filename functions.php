@@ -142,12 +142,12 @@
 	}
 	
 	
-	function createCarPlate($car_plate, $color){
+	function addLocation($gps_point, $location, $habitat_name, $habitat_code){
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("INSERT INTO car_plates (user_id, number_plate, color) VALUES (?,?,?)");
+		$stmt = $mysqli->prepare("INSERT INTO project_data (user_id, gps_point, location, habitat_name, habitat_code) VALUES (?,?,?,?,?)");
 		echo $mysqli->error;
 		//i on int user id jaoks.
-		$stmt->bind_param("iss", $_SESSION['logged_in_user_id'], $car_plate, $color);
+		$stmt->bind_param("iissi", $_SESSION['logged_in_user_id'], $gps_point, $location, $habitat_name, $habitat_code);
 		
 		//muutuja selleks, mida ta Ć¼tleb.
 		$message = "";

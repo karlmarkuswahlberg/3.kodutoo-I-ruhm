@@ -56,6 +56,7 @@
 	<th>ID</th>
 	<th>User ID</th>
 	<th>GPS point</th>
+	<th>Location</th>
 	<th>Habitat code</th>
 	<th>Habitat name</th>
 	<th>Edit</th>
