@@ -18,7 +18,7 @@
 		deleteCarData($_GET["delete"]);
 	}
 	if(isset($_GET["update"])){
-		updateCarData($_GET["car_id"], $_GET["number_plate"], $_GET["color"]);
+		updateCarData($_GET["car_id"], $_GET["gps_point"], $_GET["location"]);
 	}
 	
 	
@@ -42,9 +42,9 @@
 	
 ?>
 
-<h1>Autode tabel</h1>
+<h1>Elupaikade tabel</h1>
 
-<a href="data.php">Sisesta uus</a><br>
+<a href="data.php">Sisesta uus elupaik</a><br>
 <br>
 <form action="table.php" method="get">
 	<input name="keyword" type="search" value="<?=$keyword?>">
@@ -56,7 +56,6 @@
 	<th>ID</th>
 	<th>User ID</th>
 	<th>GPS point</th>
-	<th>Location</th>
 	<th>Habitat code</th>
 	<th>Habitat name</th>
 	<th>Edit</th>
@@ -81,8 +80,8 @@
 			
 			echo "<td>".$car_array[$i]->id."</td>";
 			echo "<td>".$car_array[$i]->user_id."</td>";
-			echo "<td><input name='number_plate' value='".$car_array[$i]->number_plate."'></td>";
-			echo "<td><input name='color' value='".$car_array[$i]->color."'></td>";
+			echo "<td><input name='gps_point' value='".$car_array[$i]->gps_point."'></td>";
+			echo "<td><input name='location' value='".$car_array[$i]->location."'></td>";
 			echo "<td><input name='update' type='submit'></td>";
 			echo "<td><a href='table.php'>cancel</a></td>";
 			echo"</tr>";
@@ -90,15 +89,15 @@
 		}else{
 			echo "<tr><td>".$car_array[$i]->id."</td>";
 			echo "<td>".$car_array[$i]->user_id."</td>";
-			echo "<td>".$car_array[$i]->number_plate."</td>";
-			echo "<td>".$car_array[$i]->color."</td>";
+			echo "<td>".$car_array[$i]->gps_point."</td>";
+			echo "<td>".$car_array[$i]->location."</td>";
 			echo "<td><a href='?delete=".$car_array[$i]->id."'>X</a></td>";
 			echo "<td><a href='?edit=".$car_array[$i]->id."'>edit</a></td>";
 			//lisan tulba, mis viib edit.php lehele.
 			echo "<td><a href='edit.php?edit_id=".$car_array[$i]->id."'>edit</a></td>";
 			echo "</tr>";
 			//echo $car_array[$i]->id."<br>";
-			//echo $car_array[$i]->number_plate."<br>";
+			//echo $car_array[$i]->gps_point."<br>";
 		}
 		
 	}

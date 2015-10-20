@@ -5,7 +5,7 @@
 
 	
 	if(isset($_GET["update"])){
-		updateCarData($_GET["car_id"], $_GET["number_plate"], $_GET["color"]);
+		updateCarData($_GET["car_id"], $_GET["gps_point"], $_GET["location"]);
 		
 	}
 	//trükin aadressirealt muutuja
@@ -32,12 +32,12 @@
 
 ?>
 
-<!--Salvestamiseks kasutan table.php rida updateCarData($_GET["car_id"], $_GET["number_plate"], $_GET["color"]); updateCar() -->
+<!--Salvestamiseks kasutan table.php rida updateCarData($_GET["car_id"], $_GET["gps_point"], $_GET["location"]); updateCar() -->
 
 <form action="edit.php" method="get">
 	<input name="car_id" type="hidden" value="<?=$_GET["edit_id"];?>">
-	<input name="number_plate" type="text" value="<?=$car->number_plate;?>"><br> <!--siit läheb reale updateCarData. Siis läheb edit_functions.php. $stmt->bind_param ja siis $stmt = $mysqli->prepare-->
-	<input name="color" type="text" value="<?=$car->color;?>"><br>
+	<input name="gps_point" type="text" value="<?=$car->gps_point;?>"><br> <!--siit läheb reale updateCarData. Siis läheb edit_functions.php. $stmt->bind_param ja siis $stmt = $mysqli->prepare-->
+	<input name="location" type="text" value="<?=$car->location;?>"><br>
 	<input name="update" type="submit"><br>
 	
 

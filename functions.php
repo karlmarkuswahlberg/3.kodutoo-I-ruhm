@@ -24,12 +24,12 @@
 		
 		//deleted is NULL, ei ole kustutatud
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("SELECT id, user_id, number_plate, color FROM car_plates WHERE deleted IS NULL AND (number_plate LIKE ? OR color LIKE ?)");
+		$stmt = $mysqli->prepare("SELECT id, user_id, gps_point, location FROM habitat_data WHERE deleted IS NULL AND (gps_point LIKE ? OR location LIKE ?)");
 		$stmt->bind_param("ss", $search, $search);
 	//kuna küsimärke pole, siis bind_param jääb vahele.
 	
 	//seob selle, mis tabelist saadud, nende muutujatega bind result.
-		$stmt->bind_result($id_from_db, $user_id_from_db, $number_plate_from_db, $color_from_db);
+		$stmt->bind_result($id_from_db, $user_id_from_db, $gps_point_from_db, $location_from_db);
 		$stmt->execute();
 		
 		//tekitame massiivi, kus hoiame auto nr KUHU.
@@ -47,8 +47,8 @@
 		   
 		   $car->id = $id_from_db;
 		   $car->user_id = $user_id_from_db;
-		   $car->number_plate = $number_plate_from_db;
-		   $car->color = $color_from_db;
+		   $car->gps_point = $gps_point_from_db;
+		   $car->location = $location_from_db;
 		   
 		   
 		   
@@ -72,7 +72,7 @@
 		 $mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		 
 		 //uuendan välja deleted, lisan praeguse date'i
-		 $stmt = $mysqli->prepare("UPDATE car_plates SET deleted=NOW() WHERE id=?");
+		 $stmt = $mysqli->prepare("UPDATE habitat_data SET deleted=NOW() WHERE id=?");
 		 $stmt->bind_param("i", $car_id);
 		 $stmt->execute();
 		 
@@ -84,11 +84,11 @@
 	}
 	
 	//uuendab muudatused ja salvestab ära.
-	function updateCarData($car_id, $number_plate, $color){
+	function updateCarData($car_id, $gps_point, $location){
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		
-		$stmt = $mysqli->prepare("UPDATE car_plates SET number_plate=?, color=? WHERE id=?");
-		$stmt->bind_param("ssi", $number_plate, $color, $car_id);
+		$stmt = $mysqli->prepare("UPDATE habitat_data SET gps_point=?, location=? WHERE id=?");
+		$stmt->bind_param("ssi", $gps_point, $location, $car_id);
 		$stmt->execute();
 		header("Location: table.php");
 		$stmt->close();
@@ -142,12 +142,12 @@
 	}
 	
 	
-	function addLocation($gps_point, $location, $habitat_name, $habitat_code){
+	function createCarPlate($car_plate, $location){
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("INSERT INTO project_data (user_id, gps_point, location, habitat_name, habitat_code) VALUES (?,?,?,?,?)");
+		$stmt = $mysqli->prepare("INSERT INTO habitat_data (user_id, gps_point, location) VALUES (?,?,?)");
 		echo $mysqli->error;
 		//i on int user id jaoks.
-		$stmt->bind_param("iissi", $_SESSION['logged_in_user_id'], $gps_point, $location, $habitat_name, $habitat_code);
+		$stmt->bind_param("iss", $_SESSION['logged_in_user_id'], $car_plate, $location);
 		
 		//muutuja selleks, mida ta Ć¼tleb.
 		$message = "";
