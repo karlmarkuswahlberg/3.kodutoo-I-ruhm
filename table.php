@@ -55,7 +55,7 @@
 	<th>Kustuta</th>
 	<th>Muuda</th>
 	<th>Muuda eraldi lehel</th>
-	<th>Lisatud</th>
+
 	
 </tr>
 <?php
@@ -87,9 +87,11 @@
 			echo "<td>".$habitat_array[$i]->location."</td>";
 			echo "<td>".$habitat_array[$i]->habitat_name."</td>";
 			echo "<td>".$habitat_array[$i]->habitat_code."</td>";
+			
 			echo "<td><a href='?delete=".$habitat_array[$i]->id."'>X</a></td>";
 			echo "<td><a href='?edit=".$habitat_array[$i]->id."'>edit</a></td>";
 			echo "<td><a href='edit.php?edit_id=".$habitat_array[$i]->id."'>edit</a></td>";
+		
 			echo "</tr>";
 		
 		}
