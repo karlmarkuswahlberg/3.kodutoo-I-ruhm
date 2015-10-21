@@ -1,25 +1,22 @@
 <?php
 	require_once("functions.php");
 	
-	//kui kasutaja ei ole sisselogitu, suuna teisele lehele. Ei saaks login.php lehele uuesti
-	//kontrollin kas sessioonimuutuja on olemas? 
+	
 	if(!isset($_SESSION['logged_in_user_id'])){
 		header("Location: table.php");
 	}
-	//aadressireale tekib ?logout=1, seega kasutame GET funktsiooni. erinevus GET ja PUSH oli see, et PUSH polndu nähtav adre real
+	
 	if(isset($_GET["logout"])){
 		session_destroy();
-		header("Location: login.php"); //see on kuhu suunab peale klõpsu
+		header("Location: login.php"); 
 	}
-	//lühend <?php > on <?= //>?
+	
 	$m = "";
 	
-	$gps_point = $location = $habitat_name = $habitat_code = "";
+	$gps_point = $location = $habitat_name = $habitat_code = $date_added = "";
 	$gps_point_error = $location_error = $habitat_code_error = $habitat_name_error = "";
 	
-	//lisada kasutaja id, numbrilaud ja värv.
-	
-	//kontrollime välju.
+
 	
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
 		
@@ -48,13 +45,13 @@
 			
 	}
 	
-	//erroreid ei olnud, käivitan funktsiooni mis sisestab andmebaasi need 2 väärtust. functions.php
+	
 	if($gps_point_error == "" && $location_error =="" && $habitat_name_error =="" && $habitat_code_error =="" ){
-		//m on message, mille saadame functions.php failist.
+		
 		$m = createHabitat($gps_point, $location, $habitat_name, $habitat_code);
 		
 		if($m != ""){
-			//teeme vormi tühjaks
+			
 			$gps_point = "";
 			$location = "";
 			$habitat_name = "";			
@@ -73,15 +70,16 @@
   	return $data;
   }
   
-  //küsime tabeli kujul andmed. kõige lõpus seepärast, et see on kõige viimasem versioon.
+  
   getAllData();
   
 	
   
 ?>
 
-Tere Tulemast, <?=$_SESSION['logged_in_user_email'];?>, siin saad lisada elupaikade andmeid tabelisse! <br><a href="?logout=1">Logi välja!</a><br>
-<a href="table.php">Vaata tabelit</a>
+Tere Tulemast, <?=$_SESSION['logged_in_user_email'];?>, siin saad lisada elupaikade andmeid tabelisse! <br>
+
+<br><a href="table.php">VAATA ANDMETABELIT</a>
 
 <h2>Lisa uus elupaik</h2>
 
@@ -97,3 +95,5 @@ Tere Tulemast, <?=$_SESSION['logged_in_user_email'];?>, siin saad lisada elupaik
 	<input type="submit" name="add_habitat" value="Lisa">
 	<p style="color:green;"><?=$m;?></p>
   </form>
+
+  <br><a href="?logout=1">Logi välja!</a><br>

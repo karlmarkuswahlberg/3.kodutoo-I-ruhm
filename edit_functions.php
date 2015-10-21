@@ -1,10 +1,8 @@
 <?php	
-	//edit_function.php,. siia tulevad funktsioonid.
 	
 	require_once("../config_global.php");
     $database = "if15_skmw";
 
-		//leian ühe auto andmed, siis kogun need ja saadan need tagasi ¤car
 	function getHabitatData($id){
 		
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
@@ -14,11 +12,8 @@
 		$stmt->bind_result($gps_point, $location, $habitat_name, $habitat_code);
 		$stmt->execute();
 		
-		//auto objekt
 		$habitat = new StdClass();
-		
-		
-		//kas sain rea andmeid
+	
 		
 		if($stmt->fetch()){
 			
@@ -29,11 +24,8 @@
 			
 			
 		}else{
-			
-			//ei tulnud rida, kui ID'd ei ole.,
-			//või on kustutatud
+		
 			header("Location: table.php");
-			
 		}
 		
 		$stmt->close();
